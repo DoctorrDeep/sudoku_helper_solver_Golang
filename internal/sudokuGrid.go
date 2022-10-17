@@ -1,6 +1,9 @@
 package internal
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/oleiade/reflections"
+)
 
 type SingleCube struct {
 	TopRowCube    [3]int
@@ -118,6 +121,9 @@ func ConvertToGrid(problem [9][9]int) (SudokuGrid, error) {
 				"BottomRowCube",
 			} {
 				fmt.Println(f1, f2, f3, i3, i1+f2)
+				x, _ := reflections.GetField(emptyGrid, f1)
+				fmt.Println(x)
+
 			}
 		}
 	}
