@@ -78,10 +78,6 @@ func (sg SudokuGrid) GetVerticalLines() [][]int {
 	var verticalLines [][]int
 	verticalSlices := make(map[int][]int)
 
-	for i := range []int{0, 1, 2, 3, 4, 5, 6, 7, 8} {
-		verticalSlices[i] = []int{}
-	}
-
 	for _, cubeRow := range sg.GetRowOfCubes() {
 		verticalSlices[0] = append(verticalSlices[0], []int{cubeRow[0].TopRowCube[0], cubeRow[0].MiddleRowCube[0], cubeRow[0].BottomRowCube[0]}...)
 		verticalSlices[1] = append(verticalSlices[1], []int{cubeRow[0].TopRowCube[1], cubeRow[0].MiddleRowCube[1], cubeRow[0].BottomRowCube[1]}...)
