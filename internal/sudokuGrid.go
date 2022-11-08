@@ -43,20 +43,16 @@ func (sg SudokuGrid) CheckCompleteness() (bool, error) {
 			verticalCompleteness = false
 		}
 	}
-
 	return cubeCompleteness && horizontalCompleteness && verticalCompleteness, nil
-
 }
 
 func (sg SudokuGrid) GetHorizontalLines() [][]int {
-
 	var (
 		topRow          []int
 		middleRow       []int
 		bottomRow       []int
 		horizontalLines [][]int
 	)
-
 	for _, cubeRow := range sg.GetRowOfCubes() {
 		for _, v := range cubeRow {
 			topRow = append(topRow, v.TopRowCube[:]...)
@@ -74,7 +70,6 @@ func (sg SudokuGrid) GetHorizontalLines() [][]int {
 }
 
 func (sg SudokuGrid) GetVerticalLines() [][]int {
-
 	var verticalLines [][]int
 	verticalSlices := make(map[int][]int)
 
@@ -95,7 +90,6 @@ func (sg SudokuGrid) GetVerticalLines() [][]int {
 	for _, v := range verticalSlices {
 		verticalLines = append(verticalLines, v)
 	}
-
 	return verticalLines
 }
 
