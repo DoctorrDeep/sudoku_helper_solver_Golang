@@ -35,3 +35,14 @@ func OneToNine(allNums []int) (bool, error) {
 	}
 	return true, nil
 }
+
+func IncompleteValidity(allNums []int) bool {
+	var nonZeroNums []int
+	for _, i := range allNums {
+		if i != 0 {
+			nonZeroNums = append(nonZeroNums, i)
+		}
+	}
+	nonZeroNumsDeDuplicated := makeDeDuplicatedSlices(nonZeroNums)
+	return len(nonZeroNumsDeDuplicated) == len(nonZeroNums)
+}

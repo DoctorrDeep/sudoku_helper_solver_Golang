@@ -13,39 +13,6 @@ func (sg SudokuGrid) GetRowOfCubes() [3]*[3]SingleCube {
 	return cubeRows
 }
 
-func (sg SudokuGrid) CheckCompleteness() (bool, error) {
-	cubeCompleteness := true
-	horizontalCompleteness := true
-	verticalCompleteness := true
-
-	for _, cubeRow := range sg.GetRowOfCubes() {
-		for _, v := range cubeRow {
-			tempCubeCompleteness, _ := v.IsCubeComplete()
-			fmt.Println(v, tempCubeCompleteness)
-			if !tempCubeCompleteness {
-				cubeCompleteness = false
-			}
-		}
-	}
-
-	for _, v := range sg.GetHorizontalLines() {
-		tempHorizontalCompleteness, _ := OneToNine(v)
-		fmt.Println(v, tempHorizontalCompleteness)
-		if !tempHorizontalCompleteness {
-			horizontalCompleteness = false
-		}
-	}
-
-	for _, v := range sg.GetVerticalLines() {
-		tempVerticalCompleteness, _ := OneToNine(v)
-		fmt.Println(v, tempVerticalCompleteness)
-		if !tempVerticalCompleteness {
-			verticalCompleteness = false
-		}
-	}
-	return cubeCompleteness && horizontalCompleteness && verticalCompleteness, nil
-}
-
 func (sg SudokuGrid) GetHorizontalLines() [][]int {
 	var (
 		topRow          []int
@@ -86,15 +53,60 @@ func (sg SudokuGrid) GetVerticalLines() [][]int {
 		verticalSlices[7] = append(verticalSlices[7], []int{cubeRow[2].TopRowCube[1], cubeRow[2].MiddleRowCube[1], cubeRow[2].BottomRowCube[1]}...)
 		verticalSlices[8] = append(verticalSlices[8], []int{cubeRow[2].TopRowCube[2], cubeRow[2].MiddleRowCube[2], cubeRow[2].BottomRowCube[2]}...)
 	}
-
-	for _, v := range verticalSlices {
-		verticalLines = append(verticalLines, v)
+	for i := 0; i <= 8; i++ {
+		verticalLines = append(verticalLines, verticalSlices[i])
 	}
 	return verticalLines
+}
+
+func (sg SudokuGrid) CheckCompleteness() (bool, error) {
+	cubeCompleteness := true
+	horizontalCompleteness := true
+	verticalCompleteness := true
+
+	for _, cubeRow := range sg.GetRowOfCubes() {
+		for _, v := range cubeRow {
+			tempCubeCompleteness, _ := v.IsCubeComplete()
+			fmt.Println(v, tempCubeCompleteness)
+			if !tempCubeCompleteness {
+				cubeCompleteness = false
+			}
+		}
+	}
+
+	for _, v := range sg.GetHorizontalLines() {
+		tempHorizontalCompleteness, _ := OneToNine(v)
+		fmt.Println(v, tempHorizontalCompleteness)
+		if !tempHorizontalCompleteness {
+			horizontalCompleteness = false
+		}
+	}
+
+	for _, v := range sg.GetVerticalLines() {
+		tempVerticalCompleteness, _ := OneToNine(v)
+		fmt.Println(v, tempVerticalCompleteness)
+		if !tempVerticalCompleteness {
+			verticalCompleteness = false
+		}
+	}
+	return cubeCompleteness && horizontalCompleteness && verticalCompleteness, nil
+}
+
+func (sg SudokuGrid) CheckLineValidity(xPos int, yPos int) bool {
+	verticalCompleteness := IncompleteValidity(sg.GetVerticalLines()[xPos])
+	horizontalCompleteness := IncompleteValidity(sg.GetHorizontalLines()[yPos])
+	return horizontalCompleteness && verticalCompleteness
 }
 
 func (sg SudokuGrid) PrintGrid() {
 	for _, v := range sg.GetHorizontalLines() {
 		fmt.Println(v)
 	}
+}
+
+func CreateEmptyGrid() *SudokuGrid {
+	emptyRow := [3]int{0, 0, 0}
+	singleCube := SingleCube{emptyRow, emptyRow, emptyRow}
+	singleRowCube := [3]SingleCube{singleCube, singleCube, singleCube}
+	return &SudokuGrid{singleRowCube, singleRowCube, singleRowCube}
 }

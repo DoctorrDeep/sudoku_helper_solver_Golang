@@ -13,3 +13,11 @@ func (sc SingleCube) IsCubeComplete() (bool, error) {
 	allNums = append(allNums, sc.BottomRowCube[:]...)
 	return OneToNine(allNums)
 }
+
+func (sc SingleCube) IsCubeValid() bool {
+	var allNums []int
+	allNums = append(allNums, sc.TopRowCube[:]...)
+	allNums = append(allNums, sc.MiddleRowCube[:]...)
+	allNums = append(allNums, sc.BottomRowCube[:]...)
+	return IncompleteValidity(allNums)
+}

@@ -23,4 +23,9 @@ func main() {
 	grid, _ := internal.ConvertToGrid(sudokuProblem)
 	fmt.Println(grid.CheckCompleteness())
 	grid.PrintGrid()
+
+	emptyGrid := internal.CreateEmptyGrid()
+	internal.FillGrid(emptyGrid)
+	fmt.Println(emptyGrid.CheckCompleteness())
+	emptyGrid.PrintGrid()
 }
